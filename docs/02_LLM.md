@@ -2,7 +2,7 @@
 
 ## LLMs 如何工作?
 
-让我们看看大型语言模型是如何工作的，重点是 OpenAI GPT（生成式预训练 Transformer）模型。
+让我们看看大型语言模型(Large Language Models)是如何工作的，重点是 OpenAI GPT（生成式预训练 Transformer）模型。
 
 - **分词器Tokenizer，文本到数字**：大型语言模型接收文本作为输入并生成文本作为输出。 然而，作为统计模型，它们对数字的处理效果对比起文本序列的处理效果要好得多。 这就是为什么模型的每个输入在被核心模型使用之前都由分词器处理。 标记token是一段chunk文本——由可变数量的字符组成，因此分词器的主要任务是将输入分割成tokens。 然后，每个标记token 都映射有一个索引，该索引是原始文本块chunk的整数编码。
 
@@ -144,3 +144,18 @@ LLMs 有一个限制，即他们只能使用训练期间使用过的数据来生
 
 > 如果您有时间和资源以及高质量的数据，微调是保持最新状态的更好选择。 然而，如果您正在寻求改进，但又缺乏时间，那么值得首先考虑 RAG。
 
+## 拓展学习资源
+
+🔗 [How to use Open Source foundation models curated by Azure Machine Learning (preview) - Azure Machine Learning | Microsoft Learn](https://learn.microsoft.com/azure/machine-learning/how-to-use-foundation-models?WT.mc_id=academic-105485-koreyst)
+
+🔗 [The Large Language Model (LLM) Index | Sapling](https://sapling.ai/llm/index?WT.mc_id=academic-105485-koreyst)
+
+🔗 [[2304.04052\] Decoder-Only or Encoder-Decoder? Interpreting Language Model as a Regularized Encoder-Decoder (arxiv.org)](https://arxiv.org/abs/2304.04052?WT.mc_id=academic-105485-koreyst)
+
+🔗 [Retrieval Augmented Generation using Azure Machine Learning prompt flow](https://learn.microsoft.com/azure/machine-learning/concept-retrieval-augmented-generation?WT.mc_id=academic-105485-koreyst)
+
+🔗 [Grounding LLMs](https://techcommunity.microsoft.com/t5/fasttrack-for-azure/grounding-llms/ba-p/3843857?wt.mc_id=github_S-1231_webpage_reactor)
+
+🔗 [The Large Language Model (LLM) Index | Sapling](https://sapling.ai/llm/index?wt.mc_id=github_S-1231_webpage_reactor)
+
+🔗 [[2304.04052\] Decoder-Only or Encoder-Decoder? Interpreting Language Model as a Regularized Encoder-Decoder (arxiv.org)](https://arxiv.org/abs/2304.04052?wt.mc_id=github_S-1231_webpage_reactor)

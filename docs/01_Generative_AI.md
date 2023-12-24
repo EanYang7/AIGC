@@ -30,4 +30,12 @@
 
 ## 补充
 
-- [ ] https://en.wikipedia.org/wiki/Generative_artificial_intelligence
+🔗 [How GPT models work: accessible to everyone](https://bea.stollnitz.com/blog/how-gpt-works/?WT.mc_id=academic-105485-koreyst)
+
+🔗 [Fundamentals of Generative AI](https://learn.microsoft.com/training/modules/fundamentals-generative-ai?&WT.mc_id=academic-105485-koreyst)
+
+🔗 [How GPT models work: accessible to everyone](https://bea.stollnitz.com/blog/how-gpt-works?WT.mc_id=academic-105485-koreyst)
+
+🔗 [Generative AI: Implication and Applications for Education](https://arxiv.org/abs/2305.07605?wt.mc_id=github_S-1231_webpage_reactor)
+
+🔗https://en.wikipedia.org/wiki/Generative_artificial_intelligence
