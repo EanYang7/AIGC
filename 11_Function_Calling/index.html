@@ -1,0 +1,1409 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AIGC">
+      
+      
+        <meta name="author" content="Ean Yang">
+      
+      
+        <link rel="canonical" href="https://eanyang7.github.io/AIGC/11_Function_Calling/">
+      
+      
+        <link rel="prev" href="../09_Images_App/">
+      
+      
+        <link rel="next" href="../12_Designing_UX/">
+      
+      
+      <link rel="icon" href="../assets/favicon.jpg">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>11 函数调用 - AIGC入门基础知识</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#11" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="AIGC入门基础知识" class="md-header__button md-logo" aria-label="AIGC入门基础知识" data-md-component="logo">
+      
+  <img src="../assets/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AIGC入门基础知识
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11 函数调用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="deep-purple"  aria-label="切换为暗黑模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换为暗黑模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="red"  aria-label="切换为浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换为浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EanYang7/AIGC" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    github仓库
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AIGC入门基础知识" class="md-nav__button md-logo" aria-label="AIGC入门基础知识" data-md-component="logo">
+      
+  <img src="../assets/logo.jpg" alt="logo">
+
+    </a>
+    AIGC入门基础知识
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EanYang7/AIGC" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    github仓库
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Generative_AI/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    01 生成式人工智能
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_LLM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    02 大型语言模型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_Responsibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    03 安全、公平和责任
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_Prompt_Engineering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    04 提示工程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_Advanced_Prompts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    05 高级提示工程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_Text_Generation_App/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    06 创建文本生成应用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_Chat_App/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    07 创建聊天应用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_Search_App/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    08 创建搜索应用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_Images_App/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    09 构建图像生成应用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    11 函数调用
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    11 函数调用
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      本章概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      学习目标
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      场景：通过功能改进我们的聊天机器人
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要 Function Calling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过场景说明问题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用 function calling 的用例
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建您的第一个 function calling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="创建您的第一个 function calling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - 创建消息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - 创建 functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-function-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - 进行 function call
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      将 function calling 集成到应用程序中
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="将 function calling 集成到应用程序中">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      管理流程
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      作业
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_Designing_UX/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 添加用户体验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extracurricular/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    拓展学习资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      本章概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      学习目标
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      场景：通过功能改进我们的聊天机器人
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要 Function Calling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过场景说明问题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用 function calling 的用例
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建您的第一个 function calling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="创建您的第一个 function calling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - 创建消息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - 创建 functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-function-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - 进行 function call
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      将 function calling 集成到应用程序中
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="将 function calling 集成到应用程序中">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      管理流程
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      作业
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/EanYang7/AIGC/tree/main/docs/11_Function_Calling.md" title="编辑此页" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/EanYang7/AIGC/tree/main/docs/11_Function_Calling.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
+
+
+<h1 id="11">11 函数调用<a class="headerlink" href="#11" title="Permanent link">⚓︎</a></h1>
+<p>到目前为止，您在之前的章节中已经学到了相当多的知识。 然而，我们可以进一步改进。 可以解决的一些问题是如何获得更一致的响应格式，以便更轻松地处理下游响应。 此外，我们可能希望添加来自其他来源的数据以进一步丰富我们的应用程序。</p>
+<p>上述问题正是本章要解决的问题。</p>
+<h2 id="_1">本章概述<a class="headerlink" href="#_1" title="Permanent link">⚓︎</a></h2>
+<p>在本章中，您将学习到:</p>
+<ul>
+<li>解释什么是 function calling 及其用例。</li>
+<li>使用 Azure OpenAI 创建 function calling。</li>
+<li>如何将function calling 集成到应用程序中。</li>
+</ul>
+<h2 id="_2">学习目标<a class="headerlink" href="#_2" title="Permanent link">⚓︎</a></h2>
+<p>在完成本章的学习，您将能够：</p>
+<ul>
+<li>解释使用 function calling 的目的。</li>
+<li>使用 Azure OpenAI Service 设置 function calling 。</li>
+<li>为您的应用程序用例设计有效的 function calling 。 。</li>
+</ul>
+<h2 id="_3">场景：通过功能改进我们的聊天机器人<a class="headerlink" href="#_3" title="Permanent link">⚓︎</a></h2>
+<p>在本课程中，我们希望为 "Our Startup" 构建一个功能，允许用户使用聊天机器人来查找技术课程。 我们将推荐适合他们的技能水平、当前角色和感兴趣的技术的课程。</p>
+<p>为了完成这个场景，我们将使用以下组合：</p>
+<ul>
+<li>“Azure Open AI” 为用户创建聊天体验。</li>
+<li>“Microsoft Learn Catalog API” 帮助用户根据用户的请求查找课程。</li>
+<li>“Function Calling” 接受用户的查询并将其发送到相关函数以发出 API 请求。</li>
+</ul>
+<p>首先，让我们看看为什么我们要首先使用 Function Calling：</p>
+<h2 id="function-calling">为什么需要 Function Calling<a class="headerlink" href="#function-calling" title="Permanent link">⚓︎</a></h2>
+<p>在函数调用之前，LLMs 的回复是非结构化且不一致的。 开发人员需要编写复杂的验证代码，以确保他们能够处理响应的每种变化。 用户无法获得诸如“斯德哥尔摩现在的天气怎么样？”之类的答案。 这是因为模型局限于数据训练的时间。</p>
+<p>Function Calling 是 Azure Open AI Service 的一项功能，旨在克服以下限制：</p>
+<ul>
+<li><strong>一致的响应格式</strong>。 如果我们能够更好地控制响应格式，我们就可以更轻松地将响应下游集成到其他系统。</li>
+<li><strong>外部数据</strong>。 能够在聊天上下文中使用应用程序其他来源的数据</li>
+</ul>
+<h2 id="_4">通过场景说明问题<a class="headerlink" href="#_4" title="Permanent link">⚓︎</a></h2>
+<p>让我们看一下说明响应格式问题的示例：</p>
+<p>假设我们想要创建一个学生数据数据库，以便我们可以向他们建议正确的课程。 下面我们有两个对学生的描述，它们所包含的数据非常相似。</p>
+<p>1.创建与我们的 Azure OpenAI 资源的连接：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">openai</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">openai</span><span class="o">.</span><span class="n">api_type</span> <span class="o">=</span> <span class="s2">&quot;azure&quot;</span>
+<span class="n">openai</span><span class="o">.</span><span class="n">api_base</span> <span class="o">=</span> <span class="s2">&quot;YOUR OPENAI API BASE URL&quot;</span>
+<span class="n">openai</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="s2">&quot;2023-07-01-preview&quot;</span>
+<span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>用于配置与Azure Open AI的连接，我们在其中设置<code>`api_type</code>, <code>api_base</code>, <code>api_version</code> 和 <code>api_key</code>。</p>
+<p>2.使用变量 'student_1_description' 和 'student_2_description' 创建两个学生描述。</p>
+<div class="highlight"><pre><span></span><code><span class="n">student_1_description</span><span class="o">=</span><span class="s2">&quot;Emily Johnson is a sophomore majoring in computer science at Duke University. She has a 3.7 GPA. Emily is an active member of the university&#39;s Chess Club and Debate Team. She hopes to pursue a career in software engineering after graduating.&quot;</span>
+
+<span class="n">student_2_description</span> <span class="o">=</span> <span class="s2">&quot;Michael Lee is a sophomore majoring in computer science at Stanford University. He has a 3.8 GPA. Michael is known for his programming skills and is an active member of the university&#39;s Robotics Club. He hopes to pursue a career in artificial intelligence after finishing his studies.&quot;</span>
+</code></pre></div>
+<p>将上述学生描述发送到LLM来解析数据。这些数据可以稍后在我们的应用程序中使用，并发送到API或存储在数据库中。</p>
+<p>3.让我们创建两个相同的提示，指引 LLM 给我们指出哪些兴趣点：</p>
+<div class="highlight"><pre><span></span><code><span class="n">prompt1</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">Please extract the following information from the given text and return it as a JSON object:</span>
+
+<span class="s1">name</span>
+<span class="s1">major</span>
+<span class="s1">school</span>
+<span class="s1">grades</span>
+<span class="s1">club</span>
+
+<span class="s1">This is the body of text to extract the information from:</span>
+<span class="si">{</span><span class="n">student_1_description</span><span class="si">}</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">prompt2</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">Please extract the following information from the given text and return it as a JSON object:</span>
+
+<span class="s1">name</span>
+<span class="s1">major</span>
+<span class="s1">school</span>
+<span class="s1">grades</span>
+<span class="s1">club</span>
+
+<span class="s1">This is the body of text to extract the information from:</span>
+<span class="si">{</span><span class="n">student_2_description</span><span class="si">}</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</code></pre></div>
+<p>上述提示指示 LLM 提取信息并以 JSON 格式返回响应。</p>
+<p>4.设置提示并连接到 Azure OpenAI 后，我们现在将使用 <code>openai.ChatCompletion</code> 将提示发送到 LLM。 我们将提示存储在 <code>messages</code> 变量中，并将角色分配给 <code>user</code>。 这是为了模仿用户写入聊天机器人的消息。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># response from prompt one</span>
+<span class="n">openai_response1</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">ChatCompletion</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;gpt-function&quot;</span><span class="p">,</span>    
+  <span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="n">prompt1</span><span class="p">}]</span>
+<span class="p">)</span>
+<span class="n">openai_response1</span><span class="p">[</span><span class="s1">&#39;choices&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;message&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> 
+
+<span class="c1"># response from prompt two</span>
+<span class="n">openai_response2</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">ChatCompletion</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;gpt-function&quot;</span><span class="p">,</span>
+  <span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="n">prompt2</span> <span class="p">}]</span>
+<span class="p">)</span>
+<span class="n">openai_response2</span><span class="p">[</span><span class="s1">&#39;choices&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;message&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> 
+</code></pre></div>
+<p>现在我们可以将两个请求发送到 LLM 并通过查找 <code>openai_response1['choices'][0]['message']['content']</code> 来检查我们收到的响应。</p>
+<p>5.最后，我们可以通过调用 <code>json.loads</code> 将响应结果转换为JSON格式：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Loading the response as a JSON object</span>
+<span class="n">json_response1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">openai_response1</span><span class="p">[</span><span class="s1">&#39;choices&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;message&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">])</span>
+<span class="n">json_response1</span>
+</code></pre></div>
+<p>Response 1:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="err">&#39;</span><span class="kc">na</span><span class="err">me&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;Emily</span><span class="w"> </span><span class="err">Joh</span><span class="kc">ns</span><span class="err">o</span><span class="kc">n</span><span class="err">&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;major&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;compu</span><span class="kc">ter</span><span class="w"> </span><span class="err">scie</span><span class="kc">n</span><span class="err">ce&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;school&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;Duke</span><span class="w"> </span><span class="err">U</span><span class="kc">n</span><span class="err">iversi</span><span class="kc">t</span><span class="err">y&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;grades&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="mf">3.7</span><span class="err">&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;club&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;Chess</span><span class="w"> </span><span class="err">Club&#39;</span><span class="p">}</span>
+</code></pre></div>
+<p>Response 2:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="err">&#39;</span><span class="kc">na</span><span class="err">me&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;Michael</span><span class="w"> </span><span class="err">Lee&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;major&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;compu</span><span class="kc">ter</span><span class="w"> </span><span class="err">scie</span><span class="kc">n</span><span class="err">ce&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;school&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;S</span><span class="kc">tanf</span><span class="err">ord</span><span class="w"> </span><span class="err">U</span><span class="kc">n</span><span class="err">iversi</span><span class="kc">t</span><span class="err">y&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;grades&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="mf">3.8</span><span class="w"> </span><span class="err">GPA&#39;</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;club&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;Robo</span><span class="kc">t</span><span class="err">ics</span><span class="w"> </span><span class="err">Club&#39;</span><span class="p">}</span>
+</code></pre></div>
+<p>尽管提示相同且描述相似，但我们看到 <code>Grades</code> 属性值的格式不同，例如有时我们可以获得“3.7”或“3.7 GPA”格式。</p>
+<p>这个结果是因为 LLM 以书面提示的形式获取非结构化数据并返回非结构化数据。 我们需要有一个结构化的格式，以便我们知道在存储或使用这些数据时会发生什么</p>
+<p>那么我们该如何解决格式化问题呢？ 通过使用 function calling，我们可以确保收到返回的结构化数据。 当使用 function calling 时，LLM 实际上并不调用或运行任何函数。 相反，我们为 LLMs 创建了一个响应结构。 然后，我们使用这些结构化响应来了解要在应用程序中运行哪些功能。.</p>
+<p><a class="glightbox" href="../11_Function_Calling.assets/Function-Flow.pngWT.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="function flow" src="../11_Function_Calling.assets/Function-Flow.pngWT.png" /></a></p>
+<p>然后我们可以获取函数返回的内容并将其发送回 LLM。 然后， LLM 将使用自然语言来回答用户的查询。</p>
+<h2 id="function-calling_1">使用 function calling 的用例<a class="headerlink" href="#function-calling_1" title="Permanent link">⚓︎</a></h2>
+<p>在许多不同的用例中，function calling 可以改进您的应用程序，例如：</p>
+<ul>
+<li><strong>调用外部工具</strong>。 聊天机器人非常擅长回答用户的问题。 通过使用函数调用，聊天机器人可以使用来自用户的消息来完成某些任务。 例如，学生可以要求聊天机器人“向我的老师发送电子邮件，说我需要有关该主题的更多帮助”。 这可以对 'send_email(to: string, body: string)' 进行函数调用</li>
+<li><strong>创建 API 或数据库查询</strong>。 用户可以使用自然语言查找信息，并将其转换为格式化查询或 API 请求。 举个例子，老师请求“谁是完成最后作业的学生”，该老师可以调用名为 'get_completed(student_name: string, assignment: int, current_status: string)' 的函数</li>
+<li><strong>创建结构化数据</strong>。 用户可以获取一段文本或 CSV 并使用 LLM 从中提取重要信息。 例如，学生可以将有关和平协议的维基百科文章转换为创建人工智能闪存卡。 这可以通过使用名为 'get_important_facts（agreement_name：string，date_signed：string，partys_involved：list）' 的函数来完成</li>
+</ul>
+<h2 id="function-calling_2">创建您的第一个 function calling<a class="headerlink" href="#function-calling_2" title="Permanent link">⚓︎</a></h2>
+<p>创建 function calling 的过程包括 3 个主要步骤：</p>
+<ol>
+<li><strong>调用</strong> Chat Completions API，并提供您的函数列表和用户消息。</li>
+<li><strong>读取</strong>模型的响应以执行操作，即执行函数或 API 调用。</li>
+<li><strong>使用</strong>函数的响应再次调用 Chat Completions API，以使用该信息创建对用户的响应。</li>
+</ol>
+<p><a class="glightbox" href="../11_Function_Calling.assets/LLM-Flow.pngWT.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="LLM Flow" src="../11_Function_Calling.assets/LLM-Flow.pngWT.png" /></a></p>
+<h3 id="step-1-">Step 1 - 创建消息<a class="headerlink" href="#step-1-" title="Permanent link">⚓︎</a></h3>
+<p>Step 1 是创建用户消息。 这可以通过获取文本输入的值来动态分配，或者您可以在此处分配一个值。 如果这是您第一次使用聊天完成 API，我们需要定义消息的“角色”和“内容”。</p>
+<p><code>role</code> 可以是<code>system</code> （创建规则）、<code>assistant</code> 模型）或<code>user</code>最终用户）。 对于函数调用，我们将其指定为 <code>user</code> 和一个示例问题。</p>
+<div class="highlight"><pre><span></span><code><span class="n">messages</span><span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Find me a good course for a beginner student to learn Azure.&quot;</span><span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>通过分配不同的角色， LLMs 可以清楚地知道是系统在说话还是用户在说话，这有助于建立 LLMs 可以建立的对话历史记录。</p>
+<h3 id="step-2-functions">Step 2 - 创建 functions<a class="headerlink" href="#step-2-functions" title="Permanent link">⚓︎</a></h3>
+<p>接下来，我们将定义一个函数以及该函数的参数。 我们在这里仅使用一个名为“search_courses”的函数，但您可以创建多个函数。</p>
+<blockquote>
+<p><strong>重要</strong>：功能包含在发给 LLM 的系统消息中，并将包含在您拥有的可用 tokens 数量中。</p>
+</blockquote>
+<p>下面，我们将函数创建为项目数组。 每个项目都是一个函数，并具有属性 <code>name</code>, <code>description</code> 和 <code>parameters</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="n">functions</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="p">{</span>
+      <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;search_courses&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Retrieves courses from the search index based on the parameters provided&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;parameters&quot;</span><span class="p">:{</span>
+         <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;properties&quot;</span><span class="p">:{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:{</span>
+               <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;The role of the learner (i.e. developer, data scientist, student, etc.)&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;product&quot;</span><span class="p">:{</span>
+               <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;The product that the lesson is covering (i.e. Azure, Power BI, etc.)&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:{</span>
+               <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;The level of experience the learner has prior to taking the course (i.e. beginner, intermediate, advanced)&quot;</span>
+            <span class="p">}</span>
+         <span class="p">},</span>
+         <span class="s2">&quot;required&quot;</span><span class="p">:[</span>
+            <span class="s2">&quot;role&quot;</span>
+         <span class="p">]</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>下面让我们更详细地描述每个函数实例：</p>
+<ul>
+<li>
+<p><code>name</code> - 我们想要调用的函数的名称。</p>
+</li>
+<li>
+<p><code>description</code> - 这是函数如何工作的描述。 在这里，重要的是要具体和清晰。</p>
+</li>
+<li>
+<p><code>parameters</code></p>
+</li>
+</ul>
+<p>- 您希望模型在其响应中生成的值和格式的列表。 参数数组由项目组成，其中项目具有以下属性：</p>
+<ol>
+<li>
+<p><code>type</code> - 将存储属性的数据类型。</p>
+</li>
+<li>
+<p><code>properties</code></p>
+<p>- 模型将用于其响应的特定值的列表</p>
+<ol>
+<li><code>name</code> - 键是模型将在其格式化响应中使用的属性的名称，例如，<code>product</code>。</li>
+<li><code>type</code> - 该属性的数据类型，例如，<code>string</code>。</li>
+<li><code>description</code> - 特定属性的描述。</li>
+</ol>
+</li>
+</ol>
+<p>还有一个可选属性“required” - 完成 function call 所需的属性。</p>
+<h3 id="step-3-function-call">Step 3 - 进行 function call<a class="headerlink" href="#step-3-function-call" title="Permanent link">⚓︎</a></h3>
+<p>定义函数后，我们现在需要将其包含在对聊天完成 API 的调用中。 我们通过向请求添加 <code>functions</code> 来做到这一点。 在这种情况下 <code>functions=functions</code>。</p>
+<p>还有一个选项可以将“function_call”设置为“auto”。 这意味着我们将让 LLM 根据用户消息决定应该调用哪个函数，而不是我们自己分配它。</p>
+<p>下面是我们调用 <code>ChatCompletion.create</code> 的一些代码，请注意我们如何设置 <code>functions=functions</code> 和 <code>function_call="auto"</code> ，从而让 LLM 选择何时调用我们提供的函数：</p>
+<div class="highlight"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">ChatCompletion</span><span class="o">.</span><span class="n">create</span><span class="p">(</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;gpt-function&quot;</span><span class="p">,</span> 
+                                        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span> 
+                                        <span class="n">functions</span><span class="o">=</span><span class="n">functions</span><span class="p">,</span> 
+                                        <span class="n">function_call</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;choices&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;message&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>现在返回的响应结果如下所示：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;function_call&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;search_courses&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;arguments&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\n  \&quot;role\&quot;: \&quot;student\&quot;,\n  \&quot;product\&quot;: \&quot;Azure\&quot;,\n  \&quot;level\&quot;: \&quot;beginner\&quot;\n}&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>在这里，我们可以看到如何调用函数 <code>search_courses</code> 以及使用哪些参数，如 JSON 响应中的 <code>arguments</code> 属性中所列。</p>
+<p>结论是，LLMs 能够找到适合函数参数的数据，因为它从聊天完成调用中提供给“messages”参数的值中提取数据。 下面是“messages”值的提醒：</p>
+<div class="highlight"><pre><span></span><code><span class="n">messages</span><span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Find me a good course for a beginner student to learn Azure.&quot;</span><span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
+<p>如您所见，<code>student</code>, <code>Azure</code> 和 <code>beginner</code> 是从<code>messages</code> 中提取的，并设置为函数的输入。 以这种方式使用函数是从提示中提取信息的好方法，同时也可以为 LLM 提供结构并具有可重用的功能。</p>
+<p>接下来，我们需要看看如何在我们的应用程序中使用它。</p>
+<h2 id="function-calling_3">将 function calling 集成到应用程序中<a class="headerlink" href="#function-calling_3" title="Permanent link">⚓︎</a></h2>
+<p>在我们测试了 LLM 的格式化响应后，现在我们可以将其集成到应用程序中。</p>
+<h3 id="_5">管理流程<a class="headerlink" href="#_5" title="Permanent link">⚓︎</a></h3>
+<p>要将其集成到我们的应用程序中，我们需要执行以下步骤：</p>
+<ol>
+<li>首先，我们调用 Open AI 服务并将消息存储在名为 <code>response_message</code> 的变量中。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">response_message</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;choices&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;message&quot;</span><span class="p">]</span>
+</code></pre></div>
+<ol>
+<li>现在我们将定义调用 Microsoft Learn API 来获取课程列表的函数：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">search_courses</span><span class="p">(</span><span class="n">role</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+  <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://learn.microsoft.com/api/catalog/&quot;</span>
+  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">role</span><span class="p">,</span>
+     <span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span>
+     <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="n">level</span>
+  <span class="p">}</span>
+  <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+  <span class="n">modules</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;modules&quot;</span><span class="p">]</span>
+  <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+     <span class="n">title</span> <span class="o">=</span> <span class="n">module</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+     <span class="n">url</span> <span class="o">=</span> <span class="n">module</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span>
+     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">})</span>
+  <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<p>请注意我们现在如何创建一个实际的 Python 函数，该函数映射到 <code>functions</code> 变量中引入的函数名称。 我们还进行真正的外部 API 调用来获取我们需要的数据。 在这种情况下，我们根据 Microsoft Learn API 来搜索培训模块。</p>
+<p>好的，我们创建了 <code>functions</code> 变量和相应的 Python 函数，我们如何告诉 LLM 如何将这两个映射在一起，以便调用我们的 Python 函数？</p>
+<ol>
+<li>要查看是否需要调用 Python 函数，我们需要查看 LLM 响应并查看“function_call”是否是其中的一部分并调用所指出的函数。 以下是进行下面提到的检查的方法：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check if the model wants to call a function</span>
+<span class="k">if</span> <span class="n">response_message</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;function_call&quot;</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recommended Function call:&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">response_message</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;function_call&quot;</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">()</span>
+
+ <span class="c1"># Call the function. </span>
+ <span class="n">function_name</span> <span class="o">=</span> <span class="n">response_message</span><span class="p">[</span><span class="s2">&quot;function_call&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+ <span class="n">available_functions</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s2">&quot;search_courses&quot;</span><span class="p">:</span> <span class="n">search_courses</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="n">function_to_call</span> <span class="o">=</span> <span class="n">available_functions</span><span class="p">[</span><span class="n">function_name</span><span class="p">]</span> 
+
+ <span class="n">function_args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_message</span><span class="p">[</span><span class="s2">&quot;function_call&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">])</span>
+ <span class="n">function_response</span> <span class="o">=</span> <span class="n">function_to_call</span><span class="p">(</span><span class="o">**</span><span class="n">function_args</span><span class="p">)</span>
+
+ <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output of function call:&quot;</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="n">function_response</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">function_response</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code># Add the assistant response and function response to the messages
+messages.append( # adding assistant response to messages
+    {
+        &quot;role&quot;: response_message[&quot;role&quot;],
+        &quot;function_call&quot;: {
+            &quot;name&quot;: function_name,
+            &quot;arguments&quot;: response_message[&quot;function_call&quot;][&quot;arguments&quot;],
+        },
+        &quot;content&quot;: None
+    }
+)
+messages.append( # adding function response to messages
+    {
+        &quot;role&quot;: &quot;function&quot;,
+        &quot;name&quot;: function_name,
+        &quot;content&quot;:function_response,
+    }
+)
+These three lines, ensure we extract the function name, the arguments and make the call:
+
+```python
+function_to_call = available_functions[function_name] 
+
+function_args = json.loads(response_message[&quot;function_call&quot;][&quot;arguments&quot;])
+function_response = function_to_call(**function_args) 
+</code></pre></div>
+<p>以下是运行代码的输出：</p>
+<p><strong>Output</strong></p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;name&quot;: &quot;search_courses&quot;,
+  &quot;arguments&quot;: &quot;{\n  \&quot;role\&quot;: \&quot;student\&quot;,\n  \&quot;product\&quot;: \&quot;Azure\&quot;,\n  \&quot;level\&quot;: \&quot;beginner\&quot;\n}&quot;
+}
+
+Output of function call:
+[{&#39;title&#39;: &#39;Describe concepts of cryptography&#39;, &#39;url&#39;: &#39;https://learn.microsoft.com/en-us/training/modules/describe-concepts-of-cryptography/? 
+WT.mc_id=api_CatalogApi&#39;}, {&#39;title&#39;: &#39;Introduction to audio classification with TensorFlow&#39;, &#39;url&#39;: &#39;https://learn.microsoft.com/en- 
+us/training/modules/intro-audio-classification-tensorflow/?WT.mc_id=api_CatalogApi&#39;}, {&#39;title&#39;: &#39;Design a Performant Data Model in Azure SQL 
+Database with Azure Data Studio&#39;, &#39;url&#39;: &#39;https://learn.microsoft.com/en-us/training/modules/design-a-data-model-with-ads/? 
+WT.mc_id=api_CatalogApi&#39;}, {&#39;title&#39;: &#39;Getting started with the Microsoft Cloud Adoption Framework for Azure&#39;, &#39;url&#39;: 
+&#39;https://learn.microsoft.com/en-us/training/modules/cloud-adoption-framework-getting-started/?WT.mc_id=api_CatalogApi&#39;}, {&#39;title&#39;: &#39;Set up the 
+Rust development environment&#39;, &#39;url&#39;: &#39;https://learn.microsoft.com/en-us/training/modules/rust-set-up-environment/?WT.mc_id=api_CatalogApi&#39;}]
+&lt;class &#39;str&#39;&gt; 
+</code></pre></div>
+<ol>
+<li>现在我们将向 LLM 发送更新后的消息 <code>messages</code> ，以便我们可以接收自然语言响应，而不是 API JSON 格式的响应。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Messages in next request:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="n">second_response</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">ChatCompletion</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+  <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;gpt-function&quot;</span><span class="p">,</span>
+  <span class="n">function_call</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+  <span class="n">functions</span><span class="o">=</span><span class="n">functions</span><span class="p">,</span>
+  <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span>
+     <span class="p">)</span>  <span class="c1"># get a new response from GPT where it can see the function response</span>
+</code></pre></div>
+<p>print(second_response["choices"][0]["message"])</p>
+<div class="highlight"><pre><span></span><code>**Output**
+
+```python
+{
+  &quot;role&quot;: &quot;assistant&quot;,
+  &quot;content&quot;: &quot;I found some good courses for beginner students to learn Azure:\n\n1. [Describe concepts of cryptography] (https://learn.microsoft.com/training/modules/describe-concepts-of-cryptography/?WT.mc_id=api_CatalogApi)\n2. [Introduction to audio classification with TensorFlow](https://learn.microsoft.com/training/modules/intro-audio-classification-tensorflow/?WT.mc_id=api_CatalogApi)\n3. [Design a Performant Data Model in Azure SQL Database with Azure Data Studio](https://learn.microsoft.com/training/modules/design-a-data-model-with-ads/?WT.mc_id=api_CatalogApi)\n4. [Getting started with the Microsoft Cloud Adoption Framework for Azure](https://learn.microsoft.com/training/modules/cloud-adoption-framework-getting-started/?WT.mc_id=api_CatalogApi)\n5. [Set up the Rust development environment](https://learn.microsoft.com/training/modules/rust-set-up-environment/?WT.mc_id=api_CatalogApi)\n\nYou can click on the links to access the courses.&quot;
+}
+</code></pre></div>
+<h2 id="_6">作业<a class="headerlink" href="#_6" title="Permanent link">⚓︎</a></h2>
+<p>要继续学习 Azure 开放 AI function calling，您可以构建：</p>
+<ul>
+<li>
+<p>该功能的更多参数可以帮助学习者找到更多课程。 您可以在此处找到可用的 API 参数：</p>
+</li>
+<li>
+<p>创建另一个函数调用，从学习者那里获取更多信息，例如他们的母语</p>
+</li>
+<li>
+<p>当函数调用和/或API调用未返回任何合适的课程时创建错误处理</p>
+</li>
+</ul>
+<p>提示：按照 <a href="https://learn.microsoft.com/training/support/catalog-api-developer-reference?WT.mc_id=academic-105485-koreyst">Learn API 参考文档</a> 页面了解此操作的方式和和哪些数据是可用的</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 13, 2024</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="创建日期">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 13, 2024</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../09_Images_App/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 09 构建图像生成应用">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                09 构建图像生成应用
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../12_Designing_UX/" class="md-footer__link md-footer__link--next" aria-label="下一页: 12 添加用户体验">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                12 添加用户体验
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 Ean Yang
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/YQisme" target="_blank" rel="noopener" title="github主页" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://space.bilibili.com/244185393?spm_id_from=333.788.0.0" target="_blank" rel="noopener" title="b站主页" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M488.6 104.1c16.7 18.1 24.4 39.7 23.3 65.7v202.4c-.4 26.4-9.2 48.1-26.5 65.1-17.2 17-39.1 25.9-65.5 26.7H92.02c-26.45-.8-48.21-9.8-65.28-27.2C9.682 419.4.767 396.5 0 368.2V169.8c.767-26 9.682-47.6 26.74-65.7C43.81 87.75 65.57 78.77 92.02 78h29.38L96.05 52.19c-5.75-5.73-8.63-13-8.63-21.79 0-8.8 2.88-16.06 8.63-21.797C101.8 2.868 109.1 0 117.9 0s16.1 2.868 21.9 8.603L213.1 78h88l74.5-69.397C381.7 2.868 389.2 0 398 0c8.8 0 16.1 2.868 21.9 8.603 5.7 5.737 8.6 12.997 8.6 21.797 0 8.79-2.9 16.06-8.6 21.79L394.6 78h29.3c26.4.77 48 9.75 64.7 26.1zm-38.8 69.7c-.4-9.6-3.7-17.4-10.7-23.5-5.2-6.1-14-9.4-22.7-9.8H96.05c-9.59.4-17.45 3.7-23.58 9.8-6.14 6.1-9.4 13.9-9.78 23.5v194.4c0 9.2 3.26 17 9.78 23.5s14.38 9.8 23.58 9.8H416.4c9.2 0 17-3.3 23.3-9.8 6.3-6.5 9.7-14.3 10.1-23.5V173.8zm-264.3 42.7c6.3 6.3 9.7 14.1 10.1 23.2V273c-.4 9.2-3.7 16.9-9.8 23.2-6.2 6.3-14 9.5-23.6 9.5-9.6 0-17.5-3.2-23.6-9.5-6.1-6.3-9.4-14-9.8-23.2v-33.3c.4-9.1 3.8-16.9 10.1-23.2 6.3-6.3 13.2-9.6 23.3-10 9.2.4 17 3.7 23.3 10zm191.5 0c6.3 6.3 9.7 14.1 10.1 23.2V273c-.4 9.2-3.7 16.9-9.8 23.2-6.1 6.3-14 9.5-23.6 9.5-9.6 0-17.4-3.2-23.6-9.5-7-6.3-9.4-14-9.7-23.2v-33.3c.3-9.1 3.7-16.9 10-23.2 6.3-6.3 14.1-9.6 23.3-10 9.2.4 17 3.7 23.3 10z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://eanyang7.com" target="_blank" rel="noopener" title="个人主页" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M112 48a48 48 0 1 1 96 0 48 48 0 1 1-96 0zm40 304v128c0 17.7-14.3 32-32 32s-32-14.3-32-32V256.9l-28.6 47.6c-9.1 15.1-28.8 20-43.9 10.9s-20-28.8-10.9-43.9l58.3-97c17.4-28.9 48.6-46.6 82.3-46.6h29.7c33.7 0 64.9 17.7 82.3 46.6l58.3 97c9.1 15.1 4.2 34.8-10.9 43.9s-34.8 4.2-43.9-10.9L232 256.9V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V352h-16z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.prune", "navigation.top", "toc.follow", "header.autohide", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.action.edit", "content.action.view", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
